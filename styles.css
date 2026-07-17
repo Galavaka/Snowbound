@@ -1,0 +1,491 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #08090a;
+  color: #e7dec9;
+  font-family: "Courier New", monospace;
+}
+
+button {
+  border: 2px solid #c2a76a;
+  background: #332516;
+  color: #f3df9d;
+  padding: 12px 18px;
+  font: 700 16px "Courier New", monospace;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4b351f;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+}
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.topbar {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.subtitle {
+  margin-top: 4px;
+  color: #aeb8bd;
+  font-size: 12px;
+}
+
+.counter {
+  min-width: 78px;
+  border: 2px solid #6f5534;
+  background: rgba(17, 14, 10, 0.78);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+#crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+}
+
+#crosshair::before,
+#crosshair::after {
+  content: "";
+  position: absolute;
+  background: #f8e7ad;
+  box-shadow: 1px 1px 0 #000;
+}
+
+#crosshair::before {
+  left: 7px;
+  top: 2px;
+  width: 2px;
+  height: 12px;
+}
+
+#crosshair::after {
+  left: 2px;
+  top: 7px;
+  width: 12px;
+  height: 2px;
+}
+
+#prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 132px;
+  transform: translateX(-50%);
+  min-height: 24px;
+  padding: 8px 12px;
+  color: #f4e9bd;
+  background: rgba(12, 9, 6, 0.72);
+  border: 1px solid rgba(212, 183, 104, 0.75);
+  opacity: 0;
+  transition: opacity 120ms linear;
+  white-space: nowrap;
+}
+
+#prompt.visible {
+  opacity: 1;
+}
+
+#actionButton {
+  position: absolute;
+  left: 50%;
+  bottom: 92px;
+  transform: translateX(-50%);
+  min-width: 104px;
+  border-color: #d0ad61;
+  background: rgba(44, 31, 18, 0.92);
+  pointer-events: auto;
+  text-shadow: 2px 2px 0 #000;
+}
+
+#actionButton.hidden {
+  display: none;
+}
+
+#books {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 220px));
+  gap: 5px 12px;
+  font-size: 12px;
+  color: #9ba7aa;
+}
+
+#books .found {
+  color: #efd27d;
+}
+
+#help {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  color: #c9c2aa;
+  font-size: 12px;
+}
+
+#help span {
+  display: inline-block;
+  margin-left: 10px;
+  color: #f0d47f;
+  font-weight: 700;
+}
+
+.panel button + button {
+  margin-left: 10px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(3, 5, 7, 0.72);
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+#start {
+  z-index: 10;
+  display: block;
+  background-color: #090d16;
+  background-image: url("./assets/st-basils-title.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#start::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 15, 0.28);
+}
+
+#start.hidden {
+  display: none;
+}
+
+.title-screen {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 64px 24px 48px;
+  text-align: center;
+  text-shadow: 3px 3px 0 #05070b;
+}
+
+.title-lockup h1 {
+  margin: 0;
+  color: #f1e5c2;
+  font-size: 58px;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.title-lockup p {
+  margin: 12px 0 0;
+  color: #c7d4db;
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.title-lockup .intro-story {
+  width: min(640px, calc(100vw - 40px));
+  margin: 28px auto 0;
+  color: #f0e4c0;
+  font-size: 16px;
+  line-height: 1.55;
+  opacity: 0;
+  transition: opacity 900ms linear;
+}
+
+.title-lockup .intro-story.visible {
+  opacity: 1;
+}
+
+#startButton {
+  min-width: 180px;
+  background: rgba(22, 18, 14, 0.9);
+  box-shadow: 0 0 0 3px rgba(7, 9, 13, 0.72);
+  text-transform: uppercase;
+}
+
+.title-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.level-select {
+  padding: 12px;
+  border: 1px solid rgba(194, 167, 106, 0.72);
+  background: rgba(8, 11, 16, 0.82);
+}
+
+.level-select-label {
+  margin-bottom: 9px;
+  color: #d7c99e;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.level-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.level-option {
+  min-width: 100px;
+  padding: 8px 10px;
+  border-color: #66583e;
+  background: rgba(21, 24, 27, 0.9);
+  color: #c7c1ad;
+  font-size: 12px;
+}
+
+.level-option.active {
+  border-color: #e0bd68;
+  background: #4b351f;
+  color: #ffe5a0;
+}
+
+.panel {
+  width: min(520px, calc(100vw - 32px));
+  border: 2px solid #8f7443;
+  background: rgba(19, 15, 11, 0.94);
+  padding: 24px;
+  box-shadow: 0 0 0 4px #16110b;
+}
+
+.panel h1 {
+  margin: 0 0 12px;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.panel p {
+  margin: 0 0 20px;
+  color: #cfc7af;
+  line-height: 1.5;
+}
+
+.letter-panel {
+  width: min(560px, calc(100vw - 40px));
+  box-sizing: border-box;
+  border: 2px solid #65543d;
+  background: #d3c49b;
+  color: #211c16;
+  padding: 34px;
+  box-shadow: 0 0 0 5px #17130f;
+  text-align: left;
+}
+
+.letter-label {
+  margin-bottom: 24px;
+  color: #58452f;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.letter-panel p {
+  margin: 0 0 28px;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.letter-panel button {
+  display: block;
+  margin-left: auto;
+}
+
+#dialogueCaption {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: 42px;
+  transform: translateX(-50%);
+  width: min(620px, calc(100vw - 40px));
+  box-sizing: border-box;
+  border: 1px solid #a88d56;
+  background: rgba(12, 10, 8, 0.92);
+  color: #f2e4ba;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms linear;
+}
+
+#dialogueCaption.visible {
+  opacity: 1;
+}
+
+#hud.hidden {
+  display: none;
+}
+
+.boss-panel {
+  width: min(620px, calc(100vw - 36px));
+  box-sizing: border-box;
+  border: 2px solid #8f7443;
+  background: rgba(13, 11, 10, 0.97);
+  padding: 26px;
+  box-shadow: 0 0 0 5px #090807;
+}
+
+.boss-title {
+  color: #e4c578;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.health-row {
+  display: grid;
+  grid-template-columns: auto 1fr 36px;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0;
+  color: #d7caa7;
+  font-size: 13px;
+}
+
+.health-track {
+  height: 16px;
+  border: 2px solid #5b4b37;
+  background: #241718;
+}
+
+#bossHealthFill {
+  width: 100%;
+  height: 100%;
+  background: #a6423e;
+  transition: width 260ms linear;
+}
+
+.boss-progress {
+  color: #918b7d;
+  font-size: 12px;
+  text-align: center;
+}
+
+.boss-panel h2 {
+  min-height: 58px;
+  margin: 14px 0 22px;
+  font-size: 21px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.boss-answers {
+  display: grid;
+  gap: 8px;
+}
+
+.boss-answers button {
+  width: 100%;
+  text-align: left;
+}
+
+#theEnd {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000;
+  color: #eee7d5;
+  font-size: 58px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#theEnd.hidden {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .title-screen {
+    padding: 38px 18px 28px;
+  }
+
+  .title-lockup h1 {
+    font-size: 36px;
+  }
+
+  .level-option {
+    min-width: 88px;
+  }
+
+  #books {
+    grid-template-columns: minmax(160px, 1fr);
+    bottom: 8px;
+    max-width: calc(100vw - 170px);
+    font-size: 11px;
+    gap: 3px;
+  }
+
+  #prompt {
+    bottom: 154px;
+    max-width: calc(100vw - 32px);
+    white-space: normal;
+    text-align: center;
+  }
+
+  #actionButton {
+    bottom: 112px;
+  }
+
+  #help {
+    display: none;
+  }
+}
