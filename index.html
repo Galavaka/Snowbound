@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Snowbound Volumes</title>
+    <link rel="stylesheet" href="./styles.css?v=explorer-letter">
+  </head>
+  <body>
+    <div id="game"></div>
+
+    <div id="hud">
+      <div class="topbar">
+        <div>
+          <div id="levelTitle" class="title">SNOWBOUND VOLUMES</div>
+          <div id="levelSubtitle" class="subtitle">Level 1: Russian log cabin, winter 1998</div>
+        </div>
+        <div class="counter"><span id="count">0</span>/10</div>
+      </div>
+      <div id="crosshair"></div>
+      <div id="prompt"></div>
+      <button id="actionButton" class="hidden">Take</button>
+      <div id="books"></div>
+      <div id="help">
+        <span>W</span> forward
+        <span>A</span> left
+        <span>S</span> backward
+        <span>D</span> right
+        <span>K</span> look left
+        <span>L</span> look right
+        <span>O</span> open / take
+        <span>Enter</span> next location
+        <span>Mouse</span> look
+        <span>P</span> pause
+        <span>Esc</span> release
+      </div>
+    </div>
+
+    <div id="start" class="overlay">
+      <div class="title-screen">
+        <div class="title-lockup">
+          <h1>Snowbound</h1>
+          <p>Russia, Winter 1998</p>
+          <p id="introStory" class="intro-story">"Dmitry sets off on an adventure to collect his lost friend's belongings after suddenly went missing, and tries to find clues on his whereabouts."</p>
+        </div>
+        <div class="title-actions">
+          <div id="levelSelect" class="level-select" aria-label="Level selection">
+            <div class="level-select-label">Level Select</div>
+            <div class="level-options">
+              <button class="level-option active" data-level="1">1 Cabin</button>
+              <button class="level-option" data-level="2">2 Church</button>
+              <button class="level-option" data-level="3">3 Cemetery</button>
+              <button class="level-option" data-level="4">4 Volga</button>
+              <button class="level-option" data-level="5">5 Urals</button>
+              <button class="level-option" data-level="6">6 Train</button>
+              <button class="level-option" data-level="7">7 Red Square</button>
+              <button class="level-option" data-level="8">8 Cathedral</button>
+            </div>
+          </div>
+          <button id="startButton">Enter</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="win" class="overlay hidden">
+      <div class="panel">
+        <h1 id="winTitle">All Books Found</h1>
+        <p id="winText">
+          You recovered the cabin library: field journals, folk tales, prayers,
+          maps, and the strange red ledger.
+        </p>
+        <button id="againButton">Enter the Church</button>
+      </div>
+    </div>
+
+    <div id="pause" class="overlay hidden">
+      <div class="panel">
+        <h1>Paused</h1>
+        <p>Switch the world between cold daylight and moonlit night.</p>
+        <button id="timeButton">Switch to Day</button>
+        <button id="resumeButton">Resume</button>
+      </div>
+    </div>
+
+    <div id="letter" class="overlay hidden">
+      <div class="letter-panel">
+        <div id="letterLabel" class="letter-label">Letter found in the hollow trunk</div>
+        <p id="letterMessage">"Whoever who finds this letter, watch out for the bear that patrols the Volga! I, myself, almost got bit by that very bear. - Explorer"</p>
+        <button id="closeLetterButton">Fold Letter</button>
+      </div>
+    </div>
+
+    <div id="dialogueCaption" role="status"></div>
+
+    <div id="bossQuiz" class="overlay hidden">
+      <div class="boss-panel">
+        <div class="boss-title">The Captor's Trial</div>
+        <div class="health-row">
+          <span>Health</span>
+          <div class="health-track"><div id="bossHealthFill"></div></div>
+          <span id="bossHealthText">100</span>
+        </div>
+        <div id="bossProgress" class="boss-progress">Question 1 / 3</div>
+        <h2 id="bossQuestion"></h2>
+        <div id="bossAnswers" class="boss-answers"></div>
+      </div>
+    </div>
+
+    <div id="gameOver" class="overlay hidden">
+      <div class="panel">
+        <h1>Game Over</h1>
+        <p>The captor's trial has defeated Dmitry.</p>
+        <button id="retryFinalButton">Retry Final Level</button>
+        <button id="gameOverTitleButton">Title Screen</button>
+      </div>
+    </div>
+
+    <div id="theEnd" class="hidden">The End</div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.165.0/build/three.module.js"
+        }
+      }
+    </script>
+  <script type="module" src="./game.js?v=completed-cathedral-interior"></script>
+  </body>
+</html>
